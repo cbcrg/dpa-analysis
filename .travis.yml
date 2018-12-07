@@ -11,6 +11,4 @@ install:
 - sudo apt-get -qq -y install graphviz realpath
 - curl -fsSL get.nextflow.io | bash
 script:
-- ./nextflow run . -with-docker --refs=false --trees=false
 - ./nextflow run . -with-docker --trees=false
-- ./nextflow run . -with-docker --trees='./tutorial/trees/*.dnd'
