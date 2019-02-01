@@ -1,4 +1,4 @@
-# Fast and accurate large multiple sequence alignments using root-to-leave regressive computation
+# Fast and accurate large multiple sequence alignments with a root-to-leaf regressive method
 
 This repository contains data, documentation, analysis and Nextflow workflow for the manuscript "Fast and accurate large multiple sequence alignments using root-to-leave regressive computation".
 
