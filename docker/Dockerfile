@@ -55,7 +55,7 @@ RUN wget http://mafft.cbrc.jp/alignment/software/mafft-7.397-with-extensions-src
     chmod +x newick2mafft.rb && \
     export "PATH=$PATH:/mafft/bin" && \ 
     export MAFFT_BINARIES="" && \
-    cp /mafft/bin/* /bin/. && \
+    cp /mafft/bin/* /usr/bin/. && \
     mv /mafft-7.397-with-extensions /mafft && \
     rm /mafft-7.397-with-extensions-src.tgz
 
@@ -103,26 +103,16 @@ RUN wget ftp://ftp.ncbi.nih.gov/pub/msa/msa.tar.Z && \
     make msa && \
     rm /msa.tar.Z && \
     chmod +x /msa/msa && \
-    cp /msa/msa /bin/.
+    cp /msa/msa /usr/bin/.
 
 # Install TCOFFEE
 RUN git clone https://github.com/cbcrg/tcoffee.git tcoffee && \
     cd tcoffee && \
-    git checkout 16617b9d9c393de348e0afae3024eb6c69a4527f && \
+    git checkout cd5090ca190a0ff57c1fd138686b891d81daadd3 && \
     cd compile && \
     make t_coffee && \
-    cp t_coffee /bin/.
+    cp t_coffee /usr/bin/.
 
 ENV CACHE_4_TCOFFEE='${TMPDIR:-/tmp}/.tcoffee/cache'
 ENV LOCKDIR_4_TCOFFEE='${TMPDIR:-/tmp}/.tcoffee/lock'
 ENV TMP_4_TCOFFEE='${TMPDIR:-/tmp}/.tcoffee/tmp'
-
-# Test Data
-RUN mkdir /test_data && \
-    cd test_data && \
-    wget https://raw.githubusercontent.com/skptic/dpa-analysis/master/tutorial/seqs/rnasemam.fa && \
-    wget https://raw.githubusercontent.com/skptic/dpa-analysis/master/tutorial/seqs/seatoxin.fa && \
-    wget https://raw.githubusercontent.com/skptic/dpa-analysis/master/tutorial/refs/rnasemam.ref && \
-    wget https://raw.githubusercontent.com/skptic/dpa-analysis/master/tutorial/refs/seatoxin.ref && \
-    wget https://raw.githubusercontent.com/skptic/dpa-analysis/master/tutorial/trees/rnasemam.dnd && \
-    wget https://raw.githubusercontent.com/skptic/dpa-analysis/master/tutorial/trees/seatoxin.dnd 
