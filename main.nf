@@ -1,7 +1,7 @@
 #!/usr/bin/env nextflow
 
 /*
- * Copyright (c) 2017-2018, Centre for Genomic Regulation (CRG) and the authors.
+ * Copyright (c) 2017-2019, Centre for Genomic Regulation (CRG) and the authors.
  *
  *   This file is part of 'regressive-msa-analysis'.
  *
@@ -44,19 +44,19 @@ params.refs = "$baseDir/data/refs/seatoxin.ref"
 params.trees = false
 
 // which alignment methods to run
-params.align_method = "CLUSTALO,MAFFT-FFTNS1"  //,MAFFT-FFTNS1,MAFFT-GINSI,PROBCONS,UPP"
+params.align_method = "MAFFT-GINSI" //"UPP,MAFFT-SPARSECORE,MAFFT-FFTNS1,CLUSTALO,MAFFT-GINSI,PROBCONS,UPP"
 
 // which tree methods to run if `trees` == `false`
-params.tree_method = "CLUSTALO,MAFFT_PARTTREE"  //,MAFFT-FFTNS1,MAFFT_PARTTREE"
+params.tree_method = "CLUSTALO-RANDOM,CLUSTALO,MAFFT_PARTTREE" //,MAFFT-FFTNS1,MAFFT_PARTTREE"
 
 // generate regressive alignments ?
 params.regressive_align = true
 
 // create standard alignments ?
-params.standard_align = true
+params.standard_align = false
 
 // create default alignments ? 
-params.default_align = true
+params.default_align = false
 
 // evaluate alignments ?
 params.evaluate = true
@@ -127,7 +127,7 @@ align_methods = params.align_method
  * BY USING THE `--trees` PARAMETER
  */
 
-process guide_trees {
+process generate_trees {
 
     tag "${id}.${tree_method}"
     publishDir "${params.output}/guide_trees", mode: 'copy', overwrite: true
@@ -192,6 +192,8 @@ process regressive_alignment {
 
     tag "${id}.${align_method}.DPA.${bucket_size}.${tree_method}"
     publishDir "${params.output}/alignments", mode: 'copy', overwrite: true
+    publishDir "${params.output}/parents", mode: 'copy', overwrite: true, pattern: "*.parent.aln"
+
 
     input:
       set val(id), \
@@ -210,8 +212,10 @@ process regressive_alignment {
         val(tree_method), \
         val("dpa_align"), \
         val(bucket_size), \
-        file("*.aln") \
+        file("${id}.dpa_${bucket_size}.${align_method}.with.${tree_method}.tree.aln") \
         into regressive_alignments
+
+      file ("${id}.dpa_${bucket_size}.${align_method}.with.${tree_method}.tree.parent.aln") optional true into parent_alignments
 
     when:
       params.regressive_align

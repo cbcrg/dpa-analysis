@@ -117,4 +117,3 @@ RUN git clone https://github.com/cbcrg/tcoffee.git tcoffee && \
 ENV CACHE_4_TCOFFEE='${TMPDIR:-/tmp}/.tcoffee/cache'
 ENV LOCKDIR_4_TCOFFEE='${TMPDIR:-/tmp}/.tcoffee/lock'
 ENV TMP_4_TCOFFEE='${TMPDIR:-/tmp}/.tcoffee/tmp'
-
