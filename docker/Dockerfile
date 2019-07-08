@@ -17,11 +17,11 @@ RUN apt-get update && \
       ca-certificates \
       libpng12-0 \
       python-biopython \
-      python-numpy \ 
-      ruby \ 
+      python-numpy \
+      ruby \
       python-setuptools \
       default-jdk \
-      libpng-dev 
+      libpng-dev
 
 # install argtable 2
 RUN wget http://prdownloads.sourceforge.net/argtable/argtable2-13.tar.gz && \
@@ -53,7 +53,7 @@ RUN wget http://mafft.cbrc.jp/alignment/software/mafft-7.397-with-extensions-src
     make install && \
     wget http://mafft.cbrc.jp/alignment/software/newick2mafft.rb && \
     chmod +x newick2mafft.rb && \
-    export "PATH=$PATH:/mafft/bin" && \ 
+    export "PATH=$PATH:/mafft/bin" && \
     export MAFFT_BINARIES="" && \
     cp /mafft/bin/* /usr/bin/. && \
     mv /mafft-7.397-with-extensions /mafft && \
@@ -67,7 +67,7 @@ RUN apt-get update \
 # Install MSAProbs
 RUN wget "https://downloads.sourceforge.net/project/msaprobs/MSAProbs-0.9.7.tar.gz" -O msaprobs.tar.gz && \
     tar zxf msaprobs.tar.gz && \
-    cd MSAProbs-0.9.7/MSAProbs && \ 
+    cd MSAProbs-0.9.7/MSAProbs && \
     make && \
     cp msaprobs /usr/bin && \
     rm /msaprobs.tar.gz
@@ -87,13 +87,14 @@ RUN git clone http://github.com/smirarab/sepp.git && \
     git clone https://github.com/smirarab/pasta.git && \
     git clone https://github.com/smirarab/sate-tools-linux.git && \
     cd pasta && \
-    python setup.py develop -user && \ 
+    python setup.py develop -user && \
     export PATH=$PATH:/pasta-code/pasta:/sepp  && \
     cd  /sepp && \
     python setup.py upp -c && \
     sed -i "s/root/home/g" /sepp/.sepp/upp.config && \
-    cd /pasta-code/pasta && \ 
+    cd /pasta-code/pasta && \
     python setup.py develop
+
 
 # Install MSA
 RUN wget ftp://ftp.ncbi.nih.gov/pub/msa/msa.tar.Z && \
