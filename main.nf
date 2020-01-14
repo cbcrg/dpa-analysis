@@ -259,7 +259,7 @@ refs
   .set { toEvaluate }
 
 
-process evaluate {
+process evaluate_aln {
     
     tag "${id}.${align_method}.${tree_method}.${align_type}.${bucket_size}"
     publishDir "${params.output}/individual_scores", mode: 'copy', overwrite: true
